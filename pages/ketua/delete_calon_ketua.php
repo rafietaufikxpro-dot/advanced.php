@@ -1,5 +1,5 @@
 <?php 
-include 'config.php';
+include '../header/config.php';
 
 // ambil id dari URL
 $id = $_GET['id'] ?? null;
@@ -13,10 +13,10 @@ if($id) {
     // mysqli_fetch_assoc mengambil satu baris data dari hasil query
 }
 // update data ketika form disubmit
-if ($id) {
+ {
     mysqli_query($koneksi, "DELETE FROM ketua WHERE id_calon = $id");
    header('Location: calon_ketua.php');
    exit; 
 }
-include 'header.php';
+include '../header/header.php';
 ?>

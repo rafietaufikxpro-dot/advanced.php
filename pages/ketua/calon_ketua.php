@@ -1,19 +1,20 @@
 
 
 <?php 
-include 'header.php';
+include '../header/header.php';
+include '../header/config.php'; 
+$acitvepage = basename( $_SERVER['PHP_SELF']);
 ?>  
 
-<?php include 'config.php'; 
-?>
+
 
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>data admin</h6>
-              <a href="tambah_admin.php" class="btn btn-primary">Tambah Admin</a>
+              <h6>data calon</h6>
+              <a href="tambah_ketua.php" class="btn btn-primary">tambah calon</a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -21,20 +22,20 @@ include 'header.php';
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">no</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">username</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">password</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">nama</th>
-                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">alamat</th>
-                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">aksi</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">nama</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">visi</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">misi</th>
+                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">foto</th>
+                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">aksi</th>
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
- <?php
-                    $query = mysqli_query($koneksi, "SELECT * FROM admin");
+    <?php
+                    $query = mysqli_query($koneksi, "SELECT * FROM ketua");
                     foreach ($query as $data) :
-                        $no= 1;
+                        $no = 1;
                     ?>
                      <td>
                         <p><?php echo $no++; ?></p>
@@ -42,30 +43,30 @@ include 'header.php';
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
-                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                            <img src="../../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm"><?php echo $data['username']; ?></h6>
+                            <h6 class="mb-0 text-sm"><?php echo $data['nama']; ?></h6>
                             <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
                           </div>
                         </div>
                       </td>
                      
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success"><?php echo $data['password']; ?></span>
+                        <span class="badge badge-sm bg-gradient-success"><?php echo $data['visi']; ?></span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data['nama']; ?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data['misi']; ?></span>
                       </td>
                       <td class="align-middle">
-                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data['alamat']; ?></span>
+                        <span class="text-secondary text-xs font-weight-bold"><?php echo $data['foto']; ?></span>
                       </td>
-                       <td class="align-middle">
-                        <a href="edit_admin.php?id=<?php echo $data['id_admin']; ?>" class="btn btn-sm ">Edit</a>
+                      <td class="align-middle">
+                        <a href="edit_calon_ketua.php?id=<?php echo $data['id_calon']; ?>" class="btn btn-sm ">Edit</a>
                        
                       </td>
-                        <td class="align-middle">
-                        <a href="delete_admin.php?id=<?php echo $data['id_admin']; ?>" class="btn btn-sm btn-danger">Delete</a>
+                       <td class="align-middle">
+                        <a href="delete_calon_ketua.php?id=<?php echo $data['id_calon']; ?>" class="btn btn-sm btn-danger">Delete</a>
                        
                       </td>
                     </tr>

@@ -1,7 +1,7 @@
 <?php 
-include 'header.php';
-include 'config.php'; 
-
+include '../header/header.php';
+include '../header/config.php'; 
+$activepage = basename( $_SERVER['PHP_SELF']);
 ?>
 
  <div class="container-fluid py-4">
@@ -32,6 +32,7 @@ include 'config.php';
                 <button class="btn btn-primary">Tambah</button>
             </form>
                 <?php
+            $query = mysqli_query($koneksi, "SELECT * FROM siswa");
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $nama = $_POST['nama'];
                     $kelas = $_POST['kelas'];
@@ -40,14 +41,23 @@ include 'config.php';
 
                     $sql = "INSERT INTO siswa (nama, kelas, jurusan, alamat) VALUES ('$nama', '$kelas', '$jurusan', '$alamat')";
                     if (mysqli_query($koneksi, $sql)) {
-                        echo "New record created successfully";
-                    } else {
-                        echo "Error: " . $sql . "<br>" . mysqli_error($koneksi);
-                    }
+                        echo "<script>
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'New record created successfully',
+                            icon: 'success',
+                            timer: 2000,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = 'siswa.php';
+                        });
+                        </script>";
+                      $success = true;
 
-                    mysqli_close($koneksi);
+                    }
                 }
                 ?>     
+                    
                     
               </div>
             </div>

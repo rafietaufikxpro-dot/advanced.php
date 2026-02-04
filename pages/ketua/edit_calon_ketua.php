@@ -1,9 +1,10 @@
 <?php 
-include 'config.php';
-
+include '../header/config.php';
+include '../header/header.php';
+$acitvepage = basename( $_SERVER['PHP_SELF']);
 // ambil id dari URL
 $id = $_GET['id'] ?? null;
-
+$success = false;
 // ambil dari id
 if($id) {
     $id = intval($id);
@@ -19,11 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $misi = mysqli_real_escape_string($koneksi, $_POST['misi'] ?? '');
     $foto = mysqli_real_escape_string($koneksi, $_POST['foto'] ?? '');
     $id = intval($id);
-    mysqli_query($koneksi, "UPDATE ketua SET nama='$nama', visi='$visi', misi='$misi', foto='$foto' WHERE id_calon = $id");
-   header('Location: calon_ketua.php');
-   exit; 
-}
-include 'header.php';
+
+    if(mysqli_query($koneksi, "UPDATE ketua SET nama='$nama', visi='$visi', misi='$misi', foto='$foto' WHERE id_calon = $id")) {
+        echo "<script>
+        Swal.fire({
+            title: 'Success!',
+            text: 'Data berhasil diupdate',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            window.location.href = 'calon_ketua.php';
+        });
+        </script>";
+    $success = true;
+  
+
+     }   }
+
 ?>
 
  <div class="container-fluid py-4">

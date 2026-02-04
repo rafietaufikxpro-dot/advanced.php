@@ -1,6 +1,7 @@
-<?php 
-include 'config.php';
-
+<?php      
+include '../header/header.php';
+include '../header/config.php';
+$acitvepage = basename( $_SERVER['PHP_SELF']);
 // ambil id dari URL
 $id = $_GET['id'] ?? null;
 
@@ -17,11 +18,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $kelas = $_POST['kelas'] ?? 0;
     $jurusan = $_POST['jurusan'] ?? 0;
     $alamat = $_POST['alamat'] ?? 0;
-    mysqli_query($koneksi, "UPDATE siswa SET nama='$nama', kelas='$kelas', jurusan='$jurusan', alamat='$alamat' WHERE id_siswa = '$id'");
-   header('Location: siswa.php');
-   exit; 
+
+    $query = mysqli_query($koneksi, "UPDATE siswa SET nama='$nama', kelas='$kelas', jurusan='$jurusan', alamat='$alamat' WHERE id_siswa = '$id'");
+    if($query) {
+     echo "<script>
+     Swal.fire({
+        title: 'Success!',
+        text: 'Data berhasil diupdate',
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: true,
+        confirmButtonText: 'OK'
+      }).then(() => {
+        window.location.href = 'siswa.php';
+      });
+      </script>";
+         $success = true;
+    } 
 }
-include 'header.php';
+
 ?>
 
  <div class="container-fluid py-4">

@@ -1,5 +1,5 @@
 <?php 
-include 'config.php';
+include '../header/config.php';
 
 // ambil id dari URL
 $id = $_GET['id'] ?? null;
@@ -18,7 +18,7 @@ if ($id) {
    header('Location: admin.php');  
    exit; 
 }
-include 'header.php';
+include '../header/header.php';
 ?>
 
  

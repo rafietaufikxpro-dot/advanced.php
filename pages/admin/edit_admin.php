@@ -1,6 +1,7 @@
 <?php 
-include 'config.php';
-
+include '../header/config.php';
+include '../header/header.php';
+$acitvepage = basename( $_SERVER['PHP_SELF']);
 // ambil id dari URL
 $id = $_GET['id'] ?? null;
 
@@ -17,11 +18,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'] ?? 0;
     $nama = $_POST['nama'] ?? 0;
     $alamat = $_POST['alamat'] ?? 0;
-    mysqli_query($koneksi, "UPDATE admin SET username='$username', password='$password', nama='$nama', alamat='$alamat' WHERE id_admin = '$id'");
-   header('Location: admin.php');
-   exit; 
+   if(mysqli_query($koneksi, "UPDATE admin SET username='$username', password='$password', nama='$nama', alamat='$alamat' WHERE id_admin = '$id'")) {
+      echo "<script>
+      Swal.fire({
+          title: 'Success!',
+          text: 'Data berhasil diupdate',
+          icon: 'success',
+          timer: 2000,
+          showConfirmButton: true,
+          confirmButtonText: 'OK'
+        }).then(() => {
+          window.location.href = 'admin.php';
+        });
+        </script>";
+          $success = true;
+      }
 }
-include 'header.php';
+
 ?>
 
  <div class="container-fluid py-4">

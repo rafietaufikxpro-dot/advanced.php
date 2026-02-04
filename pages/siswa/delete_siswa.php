@@ -1,5 +1,6 @@
 <?php 
-include 'config.php';
+include '../header/config.php';
+
 
 // ambil id dari URL
 $id = $_GET['id'] ?? null;
@@ -15,10 +16,12 @@ if($id) {
 {
 
     mysqli_query($koneksi, "DELETE FROM siswa WHERE id_siswa = '$id'");
+ if ($query) {
    header('Location: siswa.php');  
    exit; 
+  }
 }
-include 'header.php';
+include '../header/header.php';
 ?>
 
  

@@ -1,7 +1,7 @@
 <?php 
-include 'header.php';
-include 'config.php'; 
-
+include '../header/header.php';
+include '../header//config.php'; 
+$acitvepage = basename( $_SERVER['PHP_SELF']);
 ?>
 
  <div class="container-fluid py-4">
@@ -39,13 +39,21 @@ include 'config.php';
                     $alamat = $_POST['alamat'];
 
                     $sql = "INSERT INTO admin (username, password, nama, alamat) VALUES ('$username', '$password', '$nama', '$alamat')";
+                   
                     if (mysqli_query($koneksi, $sql)) {
-                        echo "New record created successfully";
-                    } else {
-                        echo "Error: " . $sql . "<br>" . mysqli_error($koneksi);
-                    }
+                        echo "<script>
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'New record created successfully',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = 'admin.php';
+                        });
+                        </script>";
+                      $success = true;
 
-                    mysqli_close($koneksi);
+                    }
                 }
                 ?>     
                     

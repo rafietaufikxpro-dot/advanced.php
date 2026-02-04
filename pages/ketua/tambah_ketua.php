@@ -1,7 +1,7 @@
 <?php 
-include 'header.php';
-include 'config.php'; 
-
+include '../header/header.php';
+include '../header/config.php'; 
+$acitvepage = basename( $_SERVER['PHP_SELF']);
 ?>
 
  <div class="container-fluid py-4">
@@ -40,12 +40,19 @@ include 'config.php';
 
                     $sql = "INSERT INTO ketua (nama, visi, misi, foto) VALUES ('$nama', '$visi', '$misi', '$foto')";
                     if (mysqli_query($koneksi, $sql)) {
-                        echo "New record created successfully";
-                    } else {
-                        echo "Error: " . $sql . "<br>" . mysqli_error($koneksi);
-                    }
+                        echo "<script>
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'New record created successfully',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = 'calon_ketua.php';
+                        });
+                        </script>";
+                      $success = true;
 
-                    mysqli_close($koneksi);
+                    }
                 }
                 ?>     
                     

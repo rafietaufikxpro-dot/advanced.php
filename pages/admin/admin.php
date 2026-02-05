@@ -34,8 +34,9 @@ $acitvepage = basename( $_SERVER['PHP_SELF']);
                     <tr>
  <?php
                     $query = mysqli_query($koneksi, "SELECT * FROM admin");
+                    $no = 1;
                     foreach ($query as $data) :
-                        $no= 1;
+                      
                     ?>
                      <td>
                         <p><?php echo $no++; ?></p>
@@ -43,15 +44,15 @@ $acitvepage = basename( $_SERVER['PHP_SELF']);
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
-                            <img src="../../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                            <img src="../../assets/img/<?php echo $data['foto']; ?>" class="avatar avatar-sm me-3" alt="user1">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm"><?php echo $data['username']; ?></h6>
-                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                            <p class="text-xs text-secondary mb-0"><?php echo $data['email']; ?></p>
                           </div>
                         </div>
                       </td>
-                     
+                      
                       <td class="align-middle text-center text-sm">
                         <span class="badge badge-sm bg-gradient-success"><?php echo $data['password']; ?></span>
                       </td>
@@ -65,10 +66,10 @@ $acitvepage = basename( $_SERVER['PHP_SELF']);
                         <a href="edit_admin.php?id=<?php echo $data['id_admin']; ?>" class="btn btn-sm ">Edit</a>
                        
                       </td>
-                        <td class="align-middle">
-                        <a href="delete_admin.php?id=<?php echo $data['id_admin']; ?>" class="btn btn-sm btn-danger">Delete</a>
-                       
-                      </td>
+                          <td class="align-middle">
+                      <a href="#" \ onclick="deleteAdmin(<?php echo $data['id_admin']; ?>)" class="btn btn-sm btn-danger">Delete</a>
+
+                    </td>
                     </tr>
 <?php
                     endforeach;
@@ -168,6 +169,35 @@ $acitvepage = basename( $_SERVER['PHP_SELF']);
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/soft-ui-dashboard.min.js?v=1.1.0"></script>
+  <script>
+     function deleteAdmin(id) {
+    Swal.fire({
+      title: 'apakah anda yakin?',
+      text: "data yang dihapus tidak dapat dikembalikan!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'iya, hapus data!',
+
+    }).then((result) => {
+        if (result.isConfirmed) {
+          swal.fire({
+            icon: 'success',
+            title: 'Data berhasil dihapus!',
+            showConfirmButton: false,
+            timer: 2000
+          });
+          setTimeout(function() {
+            window.location.href = 'delete_admin.php?id=' + id;
+          }, 2000);
+      } else if (result.isDenied) {
+        swal.fire('Your data is safe!', '', 'info');
+        timer = 2000;
+      }
+    });
+  }
+  </script>
 </body>
 
 </html>

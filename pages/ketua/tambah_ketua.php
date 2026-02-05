@@ -1,46 +1,38 @@
-<?php 
+<?php
 include '../header/header.php';
-include '../header/config.php'; 
-$acitvepage = basename( $_SERVER['PHP_SELF']);
-?>
+include '../header/config.php';
+$acitvepage = basename($_SERVER['PHP_SELF']);
 
- <div class="container-fluid py-4">
-      <div class="row">
-        <div class="col-12">
-          <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h6>data siswa</h6>
-            </div>
-            <div class="card-body px-0 pt-0 pb-2">
-            <form class="px-4"  method="POST">
-                <div class="form-group">
-                <label for="example-text-input" class="form-control-label">nama</label>
-                <input class="form-control" type="text" value="" id="example-text-input"name="nama">
-                </div>
-                <div class="form-group">
-                <label for="example-search-input" class="form-control-label">visi</label>
-                <input class="form-control" type="text" value="" id="example-search-input" name="visi">
-                 </div>
-                <div class="form-group">
-                <label for="example-email-input" class="form-control-label">misi</label>
-                <input class="form-control" type="text" value="" id="example-email-input" name="misi">
-                </div>
-                <div class="form-group">
-                <label for="example-url-input" class="form-control-label">foto</label>
-                <input class="form-control" type="text" value="" id="example-url-input" name="foto">
-                </div>
-                <button class="btn btn-primary">Tambah</button>
-            </form>
-                <?php
-                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                    $nama = $_POST['nama'];
-                    $visi = $_POST['visi'];
-                    $misi = $_POST['misi'];
-                    $foto = $_POST['foto'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  $nama = $_POST['nama'];
+  $visi = $_POST['visi'];
+  $misi = $_POST['misi'];
+  $email = $_POST['email'];
+  $foto = $_FILES['foto']['name'];
 
-                    $sql = "INSERT INTO ketua (nama, visi, misi, foto) VALUES ('$nama', '$visi', '$misi', '$foto')";
-                    if (mysqli_query($koneksi, $sql)) {
-                        echo "<script>
+  // upload foto
+  $target_dir = "../../assets/img";
+  // ambil data file foto
+  $tmpfile = $_FILES['foto']['tmp_name'];
+
+  // $_files['foto']['name'] untuk mendapatkan nama file
+  // $_files['foto']['tmp_name'] untuk mendapatkan temporary file yang diupload
+
+  // [foto] nama yg ada di form  . ['name'] untuk mengambil nama filenya
+  // yang diupload dari komputer user
+  // bikin target file tempat menyimpan foto
+
+  $namabaru = time() . "_" . $foto; // agar nama file tidak sama
+
+  // pindah file
+
+  move_uploaded_file($tmpfile, $target_dir . "/" . $namabaru);
+
+
+
+  $sql = "INSERT INTO ketua (nama, visi, misi, email, foto) VALUES ('$nama', '$visi', '$misi', '$email', '$namabaru')";
+  if (mysqli_query($koneksi, $sql)) {
+    echo "<script>
                         Swal.fire({
                             title: 'Success!',
                             text: 'New record created successfully',
@@ -50,16 +42,46 @@ $acitvepage = basename( $_SERVER['PHP_SELF']);
                             window.location.href = 'calon_ketua.php';
                         });
                         </script>";
-                      $success = true;
+    $success = true;
+  }
+}
 
-                    }
-                }
-                ?>     
-                    
-              </div>
+?>
+
+<div class="container-fluid py-4">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h6>data siswa</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <form class="px-4" enctype="multipart/form-data" method="POST">
+            <div class="form-group">
+              <label for="example-text-input" class="form-control-label">nama</label>
+              <input class="form-control" type="text" value="" id="example-text-input" name="nama" required>
             </div>
-          </div>
+            <div class="form-group">
+              <label for="example-search-input" class="form-control-label">visi</label>
+              <input class="form-control" type="text" value="" id="example-search-input" name="visi" required>
+            </div>
+            <div class="form-group">
+              <label for="example-email-input" class="form-control-label">misi</label>
+              <input class="form-control" type="text" value="" id="example-email-input" name="misi" required>
+            </div>
+            <div class="form-group">
+              <label for="example-url-input" class="form-control-label">foto</label>
+              <input class="form-control" type="file" value="" id="example-url-input" name="foto" accept="image/*" required>
+            </div>
+            <div class="form-group">
+              <label for="example-url-input" class="form-control-label">email</label>
+              <input class="form-control" type="email" value="" id="example-url-input" name="email" required>
+            </div>
+            <button class="btn btn-primary">Tambah</button>
+          </form>
         </div>
       </div>
     </div>
-     
+  </div>
+</div>
+</div>

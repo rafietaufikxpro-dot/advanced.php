@@ -15,11 +15,29 @@ if($id) {
 // update data ketika form disubmit
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama = $_POST['nama'] ?? 0;
+    $email = $_POST['email'] ?? 0;
     $kelas = $_POST['kelas'] ?? 0;
     $jurusan = $_POST['jurusan'] ?? 0;
     $alamat = $_POST['alamat'] ?? 0;
+    $foto = $_FILES['foto'] ?? 0;
+    
+    
+    if ($_FILES['foto']['name'] ) {
+            $foto = $_FILES['foto']['name'];
+            $tmp = $_FILES['foto']['tmp_name'];
+            // upload foto
 
-    $query = mysqli_query($koneksi, "UPDATE siswa SET nama='$nama', kelas='$kelas', jurusan='$jurusan', alamat='$alamat' WHERE id_siswa = '$id'");
+      $target_dir = "../../assets/img/";
+            // ambil data file foto
+          
+            move_uploaded_file($tmp, $target_dir . "/" . $foto);
+    
+          $sql = "UPDATE siswa SET foto='$foto', kelas='$kelas', jurusan='$jurusan', alamat='$alamat'  WHERE id_siswa = '$id'";
+        } else {
+          $sql = "UPDATE siswa SET nama='$nama', kelas='$kelas', jurusan='$jurusan', alamat='$alamat' WHERE id_siswa = '$id'";
+        }
+
+    $query = mysqli_query($koneksi, $sql);
     if($query) {
      echo "<script>
      Swal.fire({
@@ -35,9 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       </script>";
          $success = true;
     } 
-}
 
-?>
+}
+  ?>
 
  <div class="container-fluid py-4">
       <div class="row">
@@ -47,10 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
               <h6>data siswa</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
-            <form class="px-4"  method="POST">
+            <form class="px-4" enctype="multipart/form-data" method="POST">
                 <div class="form-group">
                 <label for="example-text-input" class="form-control-label">nama</label>
                 <input class="form-control" type="text" value="<?php echo $siswa['nama'] ?? ''; ?>" id="example-text-input"name="nama">
+                </div>
+                  <div class="form-group">
+                <label for="example-text-input" class="form-control-label">email</label>
+                <input class="form-control" type="text" value="<?php echo $siswa['email'] ?? ''; ?>" id="example-text-input"name="email">
                 </div>
                 <div class="form-group">
                 <label for="example-search-input" class="form-control-label">kelas</label>
@@ -64,7 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="example-url-input" class="form-control-label">alamat</label>
                 <input class="form-control" type="text" value="<?php echo $siswa['alamat'] ?? ''; ?>" id="example-url-input" name="alamat">
                 </div>
-                <button class="btn btn-primary">Tambah</button>
+                  
+                <div class="form-group">
+                <label for="example-url-input" class="form-control-label">foto</label>
+                <img src="../../assets/img/<?php echo $siswa['foto']; ?>" class="avatar avatar-sm me-3" alt="user1">
+                <input class="form-control" type="file" id="example-url-input" name="foto">
+                </div>
+                <button class="btn btn-primary">Update</button>
             </form> 
               </div>
             </div>

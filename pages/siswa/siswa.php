@@ -37,20 +37,21 @@ $acitvepage = basename($_SERVER['PHP_SELF']);
                 <tr>
                   <?php
                   $query = mysqli_query($koneksi, "SELECT * FROM siswa");
-                  foreach ($query as $data) :
-                    $no = 1;
+                 
+                     $no= 1; 
+                      foreach ($query as $data) :
                   ?>
                     <td>
-                      <p><?php echo $no++; ?></p>
+                     <p><?php echo $no++; ?></p>
                     </td>
                     <td>
                       <div class="d-flex px-2 py-1">
                         <div>
-                          <img src="../../assets/img/team-2.jpg" class="avatar avatar-sm me-3" alt="user1">
+                          <img src="../../assets/img/<?php echo $data['foto']; ?>" class="avatar avatar-sm me-3" alt="user1">
                         </div>
                         <div class="d-flex flex-column justify-content-center">
                           <h6 class="mb-0 text-sm"><?php echo $data['nama']; ?></h6>
-                          <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                          <p class="text-xs text-secondary mb-0"><?php echo $data['email']; ?></p>
                         </div>
                       </div>
                     </td>
@@ -64,6 +65,7 @@ $acitvepage = basename($_SERVER['PHP_SELF']);
                     <td class="align-middle">
                       <span class="text-secondary text-xs font-weight-bold"><?php echo $data['alamat']; ?></span>
                     </td>
+                    
                     <td class="align-middle">
                       <a href="edit_siswa.php?id=<?php echo $data['id_siswa']; ?>" class="btn btn-sm ">Edit</a>
 
